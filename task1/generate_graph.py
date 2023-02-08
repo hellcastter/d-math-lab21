@@ -16,7 +16,6 @@ def gnp_random_connected_graph(num_of_nodes: int,
     graph, but enforcing that the resulting graph is conneted (in case of undirected graphs)
     """
 
-    
     if directed:
         G = nx.DiGraph()
     else:
@@ -56,11 +55,3 @@ def gnp_random_connected_graph(num_of_nodes: int,
                 node_size=500)
         
     return G
-
-
-# graph = gnp_random_connected_graph(10, 0.5, False, False)
-
-# print(list(graph.edges(data=True)))
-
-# a = nx.adjacency_matrix(graph, nodelist=None, weight='weight')
-# print(a.todense())
