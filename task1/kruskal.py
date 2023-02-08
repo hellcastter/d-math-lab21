@@ -17,7 +17,9 @@ def kruskal_algo(graph: nx.Graph) -> nx.Graph:
 
     result = nx.Graph()
 
-    for edge in graph:
+    while graph and len(trees) > 1:
+        edge = graph.pop(0)
+
         firstTree, secondTree = None, None
 
         # find in which trees the first and second nodes are
@@ -45,9 +47,5 @@ def kruskal_algo(graph: nx.Graph) -> nx.Graph:
         # and delete second tree
         firstTree.update(secondTree)
         del trees[trees.index(secondTree)]
-
-        # all edges are already in one tree
-        if len(trees) == 1:
-            break
 
     return result
