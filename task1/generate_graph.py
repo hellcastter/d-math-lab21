@@ -58,7 +58,7 @@ def gnp_random_connected_graph(num_of_nodes: int,
     return G
 
 
-# graph = gnp_random_connected_graph(10, 1, False, False)
+# graph = gnp_random_connected_graph(10, 0.5, False, False)
 
 # print(list(graph.edges(data=True)))
 
