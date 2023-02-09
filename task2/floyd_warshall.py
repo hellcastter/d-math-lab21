@@ -1,9 +1,6 @@
 """ Floyd–Warshall algorithm """
-from pprint import pprint
 from math import inf
-from copy import deepcopy
 import networkx as nx
-from generate_graph import gnp_random_connected_graph
 
 
 def floyd_warshall(graph: nx.Graph):
@@ -21,8 +18,8 @@ def floyd_warshall(graph: nx.Graph):
         matrix[i][i] = 0
 
     for k in range(nodes_count):
-        for i, row in enumerate(matrix):
-            for j, weight in enumerate(row):
+        for i in matrix:
+            for j in matrix[i]:
                 matrix[i][j] = min(matrix[i][k] + matrix[k][j], matrix[i][j])
 
             if matrix[i][i] < 0:
@@ -30,20 +27,3 @@ def floyd_warshall(graph: nx.Graph):
                 return
 
     return matrix
-
-
-    # pprint(matrix)
-
-G = nx.DiGraph()
-G.add_nodes_from(range(3))
-G.add_edge(0, 1, weight=-2)
-G.add_edge(0, 2, weight=3)
-G.add_edge(0, 3, weight=-3)
-G.add_edge(1, 2, weight=2)
-G.add_edge(2, 3, weight=-3)
-G.add_edge(3, 2, weight=5)
-G.add_edge(3, 1, weight=5)
-G.add_edge(3, 0, weight=4)
-
-# a = gnp_random_connected_graph(10, 1, True, False)
-print(floyd_warshall(G))
