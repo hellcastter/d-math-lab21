@@ -3,7 +3,15 @@ from math import inf
 import networkx as nx
 
 
-def floyd_warshall(graph: nx.Graph):
+def floyd_warshall(graph: nx.Graph) -> list[list[int | float]] | None:
+    """Floyd–Warshall algorithm
+
+    Args:
+        graph (nx.Graph): original graph
+
+    Returns:
+        list[list[int | float]] | None: distances
+    """
     # create adjactency matrix
     nodes_count = len(graph.nodes)
     # init matrix with default value inf
@@ -24,6 +32,6 @@ def floyd_warshall(graph: nx.Graph):
 
             if matrix[i][i] < 0:
                 print("Negative cycle detected")
-                return
+                return None
 
     return matrix
