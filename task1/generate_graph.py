@@ -1,7 +1,8 @@
+""" Helping functions """
+from itertools import combinations, groupby
 import random
 import networkx as nx
 import matplotlib.pyplot as plt
-from itertools import combinations, groupby
 
 
 # You can use this function to generate a random graph with 'num_of_nodes' nodes

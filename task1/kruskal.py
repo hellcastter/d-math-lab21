@@ -1,3 +1,4 @@
+""" Kruskal's algo """
 import networkx as nx
 
 
@@ -20,23 +21,23 @@ def kruskal_algo(graph: nx.Graph) -> nx.Graph:
     while graph and len(trees) > 1:
         edge = graph.pop(0)
 
-        firstTree, secondTree = None, None
+        first_tree, second_tree = None, None
 
         # find in which trees the first and second nodes are
         for tree in trees:
             if edge[0] in tree:
-                firstTree = tree
+                first_tree = tree
 
             if edge[1] in tree:
-                secondTree = tree
+                second_tree = tree
 
             # found 1 and 2 trees
-            if firstTree and secondTree:
+            if first_tree and second_tree:
                 break
 
         # they are in the same trees,
         # so they would do a cycle if we connect them
-        if firstTree == secondTree:
+        if first_tree == second_tree:
             continue
 
         # add to result
@@ -45,7 +46,7 @@ def kruskal_algo(graph: nx.Graph) -> nx.Graph:
         # extend first tree with the second by reference
         # (it will change anywhere)
         # and delete second tree
-        firstTree.update(secondTree)
-        del trees[trees.index(secondTree)]
+        first_tree.update(second_tree)
+        del trees[trees.index(second_tree)]
 
     return result
