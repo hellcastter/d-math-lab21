@@ -1,5 +1,6 @@
 """ Kruskal's algo """
 import networkx as nx
+from generate_graph import gnp_random_connected_graph
 
 
 def kruskal_algo(graph: nx.Graph) -> nx.Graph:
@@ -50,3 +51,7 @@ def kruskal_algo(graph: nx.Graph) -> nx.Graph:
         del trees[trees.index(second_tree)]
 
     return result
+
+if __name__ == "__main__":
+    graph = gnp_random_connected_graph(10, 0.5, False, False)
+    print(kruskal_algo(graph))
