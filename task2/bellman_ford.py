@@ -1,30 +1,53 @@
 from generate_graph import gnp_random_connected_graph
-import numpy as np
 import networkx as nx
-def bellman_ford_algo(graph: nx.Graph, start_vertex=0) -> dict:
-    """
-    Bellman-Ford algorithm
+from math import inf
+
+def bellman_ford_algo(
+        graph: nx.Graph,
+        start_vertex=0
+    ) -> tuple[dict[int, list[int]], dict[int, int]]:
+    """Bellman-Ford algorithm. Find the shortest way from selected node to
+    every else
+
+    Args:
+        graph (nx.Graph): original graph
+        start_vertex (int, optional): selected node. Defaults to 0.
+
+    Returns:
+        tuple[dict[int, list[int]], dict[int, int]]: 1st dict is the shortest 
+            path to current node. 2nd element is lengths of shortest paths
     """
     nodes = graph.nodes
-    edges_tup = graph.edges(data=True)
-    edges = {}
-    for first, second, weight in edges_tup:
-        edges[(first, second)]=weight['weight']
-    path_leng = {vrtx: np.inf for vrtx in nodes}
-    path_leng[start_vertex] = 0
-    path = {vrtx: [] for vrtx in nodes}
-    path[start_vertex]=[start_vertex]
-    _ = len(nodes) #iterator
-    while _ >=1:
-        for (first_v, second_v), weitgh in edges.items():
-            if path_leng[second_v] > path_leng[first_v] + weitgh:
-                path_leng[second_v] = path_leng[first_v] + weitgh
-                path[second_v] = path[first_v] + [second_v]
-        _-=1
-    for (first_v, second_v), weitgh in edges.items():
-        if path_leng[second_v] > path_leng[first_v] + weitgh:
-            return None #becouse graph have negative cyrcle
-    return path_leng, path
+    edges = graph.edges(data=True)
 
-graph = gnp_random_connected_graph(10, 0.5, True, False)
-print(bellman_ford_algo(graph))
+    # initialize lengths and set start to 0
+    lengths = {vertex: inf for vertex in nodes}
+    lengths[start_vertex] = 0
+
+    # initialize path
+    path = {vertex: [] for vertex in nodes}
+    path[start_vertex] = [start_vertex]
+
+    # do n - 1 iterations
+    for _ in range(len(nodes) - 1):
+        # for every edge
+        for node1, node2, weight in edges:
+            weight = weight['weight']
+
+            # compare current path and path to node1 + path from node1 to node2
+            if lengths[node2] > (new_length := lengths[node1] + weight):
+                lengths[node2] = new_length
+                path[node2] = path[node1] + [node2]
+
+    # control iteration. If smth changes -- there's negative cycle
+    for node1, node2, weight in edges:
+        weight = weight['weight']
+
+        if lengths[node2] > lengths[node1] + weight:
+            return None # because graph have negative cycle
+
+    return path, lengths
+
+if __name__ == "__main__":
+    graph = gnp_random_connected_graph(10, 0.5, True, False)
+    print( bellman_ford_algo(graph) )

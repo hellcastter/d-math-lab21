@@ -1,34 +1,52 @@
-"""This module was created to study the operation of Prim's algorithm"""
+""" This module was created to study the operation of Prim's algorithm """
 from generate_graph import gnp_random_connected_graph
 import networkx as nx
+from heapq import heappush, heappop
 
-def prim_algo(graph: nx.Graph, start = 0) -> nx.Graph:
+def prim_algo(graph: nx.Graph, start=0):
+    """This function applies Prim's algorithm to the given graph.
+
+    Args:
+        graph (nx.Graph): original graph
+        start (int, optional): node where to start. Defaults to 0.
+
+    Returns:
+        nx.Graph: minimum spanning edges
     """
-    This function applies Prim's algorithm to the given graph.
-    The initial vertex is set as the start.
-    Returns the result of Prim's algorithm to
-    the given graph and returns it as a list of edges.
-    """
-    vertices = set([start])
-    res_graph = nx.Graph()
+    visited = {start}
+    tree = nx.Graph()
 
-    adjacency_matrix = nx.adjacency_matrix(graph, nodelist=None, weight='weight')
-    adjacency_matrix = adjacency_matrix.todense()
+    # heapq -- data structure that always looks like SORTED list
+    # and the first item is always the least
+    heapq = []
 
-    for _ in range(graph.number_of_nodes()):
-        min_weight, vertex_1, vertex_2 = 0, None, None
+    # initialize. add data to heapq
+    for node, weight in graph.adj[start].items():
+        weight = weight['weight']
+        heappush(heapq, (weight, start, node))
 
-        for first_vertex in vertices:
-            for second_vertex, edge_weight in enumerate(adjacency_matrix[first_vertex]):
-                if (min_weight == 0 or edge_weight < min_weight) and second_vertex not in vertices:
-                    min_weight, vertex_1, vertex_2 = edge_weight, first_vertex, second_vertex
+    # while there's edges in heapq or not all nodes are in tree
+    while heapq and len(visited) != graph.number_of_nodes():
+        # get least edge
+        weight, node1, node2 = heappop(heapq)
 
-        if vertex_2:
-            vertices.add(vertex_2)
-            res_graph.add_edge(vertex_1, vertex_2, weight=min_weight)
+        # this node is already in tree
+        if node2 in visited:
+            continue
 
-    return res_graph
+        tree.add_edge(node1, node2, weight=weight)
+        visited.add(node2)
+
+        # add all edges from node to N to heapq
+        for node, weight in graph.adj[node2].items():
+            if node in visited:
+                continue
+
+            weight = weight['weight']
+            heappush(heapq, (weight, start, node))
+        
+    return tree
 
 if __name__ == "__main__":
-    graph = gnp_random_connected_graph(10, 0.5, False, False)
-    print(prim_algo(graph))
+    graph = gnp_random_connected_graph(10, 0.8, False, False)
+    print( prim_algo(graph) )

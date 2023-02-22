@@ -1,10 +1,10 @@
-""" Floyd–Warshall algorithm """
+""" Floyd-Warshall algorithm """
 from math import inf
 import networkx as nx
-
+from generate_graph import gnp_random_connected_graph
 
 def floyd_warshall(graph: nx.Graph) -> list[list[int | float]] | None:
-    """Floyd–Warshall algorithm
+    """Floyd-Warshall algorithm
 
     Args:
         graph (nx.Graph): original graph
@@ -12,7 +12,7 @@ def floyd_warshall(graph: nx.Graph) -> list[list[int | float]] | None:
     Returns:
         list[list[int | float]] | None: distances
     """
-    # create adjactency matrix
+    # create adjacency matrix
     nodes_count = len(graph.nodes)
     # init matrix with default value inf
     matrix = [[inf] * nodes_count for _ in range(nodes_count)]
@@ -26,8 +26,8 @@ def floyd_warshall(graph: nx.Graph) -> list[list[int | float]] | None:
         matrix[i][i] = 0
 
     for k in range(nodes_count):
-        for i in matrix:
-            for j in matrix[i]:
+        for i in range(nodes_count):
+            for j in range(nodes_count):
                 matrix[i][j] = min(matrix[i][k] + matrix[k][j], matrix[i][j])
 
             if matrix[i][i] < 0:
@@ -35,3 +35,7 @@ def floyd_warshall(graph: nx.Graph) -> list[list[int | float]] | None:
                 return None
 
     return matrix
+
+if __name__ == '__main__':
+    graph = gnp_random_connected_graph(10, 0.8, True)
+    print( floyd_warshall(graph) )

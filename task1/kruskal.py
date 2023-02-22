@@ -4,32 +4,33 @@ from generate_graph import gnp_random_connected_graph
 
 
 def kruskal_algo(graph: nx.Graph) -> nx.Graph:
-    """make minimal cut by Kruskal's algorithm
+    """make minimum spanning edges by Kruskal's algorithm
 
     Args:
         graph (nx.Graph): original graph
 
     Returns:
-        nx.Graph: minimal cut
+        nx.Graph: minimum spanning edges
     """
     trees = [set([i]) for i in graph.nodes()]
 
-    # graph represented in (v1, v2, {'weight': w}) and sorted by weigth
+    # graph represented in (v1, v2, {'weight': w}) and sorted by weight
     graph = sorted(graph.edges(data=True), key=lambda x: x[2]['weight'])
 
     result = nx.Graph()
 
     while graph and len(trees) > 1:
-        edge = graph.pop(0)
+        node1, node2, weight = graph.pop(0)
+        weight = weight['weight']
 
         first_tree, second_tree = None, None
 
         # find in which trees the first and second nodes are
         for tree in trees:
-            if edge[0] in tree:
+            if node1 in tree:
                 first_tree = tree
 
-            if edge[1] in tree:
+            if node2 in tree:
                 second_tree = tree
 
             # found 1 and 2 trees
@@ -42,7 +43,7 @@ def kruskal_algo(graph: nx.Graph) -> nx.Graph:
             continue
 
         # add to result
-        result.add_edge(edge[0], edge[1], weight=edge[2]['weight'])
+        result.add_edge(node1, node2, weight=weight)
 
         # extend first tree with the second by reference
         # (it will change anywhere)
@@ -52,6 +53,7 @@ def kruskal_algo(graph: nx.Graph) -> nx.Graph:
 
     return result
 
+
 if __name__ == "__main__":
-    graph = gnp_random_connected_graph(10, 0.5, False, False)
+    graph = gnp_random_connected_graph(10, 0.8, False, False)
     print(kruskal_algo(graph))
