@@ -36,7 +36,7 @@ def gnp_random_connected_graph(num_of_nodes: int,
                 G.add_edge(*e)
 
     for (u, v, w) in G.edges(data=True):
-        w['weight'] = random.randint(-5, 20)
+        w['weight'] = random.randint(-7, 20)
 
     if draw:
         plt.figure(figsize=(10, 6))
