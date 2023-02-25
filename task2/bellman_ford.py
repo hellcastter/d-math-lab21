@@ -1,6 +1,6 @@
-from generate_graph import gnp_random_connected_graph
-import networkx as nx
 from math import inf
+import networkx as nx
+from generate_graph import gnp_random_connected_graph
 
 def bellman_ford_algo(
         graph: nx.Graph,
@@ -49,5 +49,5 @@ def bellman_ford_algo(
     return path, lengths
 
 if __name__ == "__main__":
-    graph = gnp_random_connected_graph(10, 0.5, True, False)
-    print( bellman_ford_algo(graph) )
+    random_graph = gnp_random_connected_graph(10, 0.5, True, False)
+    print( bellman_ford_algo(random_graph) )

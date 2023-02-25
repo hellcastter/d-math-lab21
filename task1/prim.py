@@ -1,7 +1,7 @@
 """ This module was created to study the operation of Prim's algorithm """
-from generate_graph import gnp_random_connected_graph
-import networkx as nx
 from heapq import heappush, heappop
+import networkx as nx
+from generate_graph import gnp_random_connected_graph
 
 def prim_algo(graph: nx.Graph, start=0):
     """This function applies Prim's algorithm to the given graph.
@@ -44,9 +44,9 @@ def prim_algo(graph: nx.Graph, start=0):
 
             weight = weight['weight']
             heappush(heapq, (weight, start, node))
-        
+
     return tree
 
 if __name__ == "__main__":
-    graph = gnp_random_connected_graph(10, 0.8, False, False)
-    print( prim_algo(graph) )
+    random_graph = gnp_random_connected_graph(10, 0.8, False, False)
+    print( prim_algo(random_graph) )

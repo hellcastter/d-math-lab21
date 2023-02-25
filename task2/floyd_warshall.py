@@ -37,5 +37,5 @@ def floyd_warshall(graph: nx.Graph) -> list[list[int | float]] | None:
     return matrix
 
 if __name__ == '__main__':
-    graph = gnp_random_connected_graph(10, 0.8, True)
-    print( floyd_warshall(graph) )
+    random_graph = gnp_random_connected_graph(10, 0.8, True)
+    print( floyd_warshall(random_graph) )

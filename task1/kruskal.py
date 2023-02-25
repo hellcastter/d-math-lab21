@@ -55,5 +55,5 @@ def kruskal_algo(graph: nx.Graph) -> nx.Graph:
 
 
 if __name__ == "__main__":
-    graph = gnp_random_connected_graph(10, 0.8, False, False)
-    print(kruskal_algo(graph))
+    random_graph = gnp_random_connected_graph(10, 0.8, False, False)
+    print( kruskal_algo(random_graph) )
