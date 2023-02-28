@@ -3,7 +3,7 @@ from generate_graph import gnp_random_connected_graph
 import networkx as nx
 from heapq import heappush, heappop
 
-def prim_algo(graph: nx.Graph, start=0):
+def prim_algo(graph: nx.Graph, start=0) -> nx.Graph:
     """This function applies Prim's algorithm to the given graph.
 
     Args:
